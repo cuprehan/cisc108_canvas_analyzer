@@ -50,8 +50,7 @@ def filter_available_courses(courses):
         if course["workflow_state"] == "available":
             available_courses.append(course)
     return available_courses
-classes = {'workflow_state': 'available', 'end_at': '2017-12-24T17:06:00Z', 'id': 52, 'start_at': '2017-08-21T17:06:00Z', 'name': 'Introduction to Programming in Python'}, {'workflow_state': 'available', 'end_at': '2017-12-24T17:06:00Z', 'id': 15, 'start_at': '2017-08-21T17:06:00Z', 'name': 'Potions'}, {'workflow_state': 'available', 'end_at': '2017-12-24T17:06:00Z', 'id': 23, 'start_at': '2017-08-21T17:06:00Z', 'name': 'Defense Against the Dark Arts'}, {'workflow_state': 'available', 'end_at': '2017-12-24T17:06:00Z', 'id': 34, 'start_at': '2017-08-21T17:06:00Z', 'name': 'Transfiguration'}
-
+ 
 # 4) print_courses
 def print_courses(courses):
     for course in courses:
@@ -73,7 +72,6 @@ def choose_course(course_ids):
 def summarize_points(submissions):
     points_possible = 0
     points_obtained = 0
-
     for submission in submissions:
         points_possible = points_possible + (submission["assignment"]["points_possible"] * submission["assignment"]["points_possible"]["group"]["group_weight"])
         points_obtained = points_obtained + (submission["score"] * submission["assignment"]["points_possible"]["group"]["group_weight"])
@@ -82,9 +80,12 @@ def summarize_points(submissions):
     print("Current grade: " + str(round((points_obtained/points_possible) * 100), 1))
 # 8) summarize_groups
 def summarize_groups(submissions):
-    unweighted_grade = sum(submissions)
+    group_score = {}
+    group_points = {}
 
 # 9) plot_scores
+def plot_scores(submissions):
+
 # 10) plot_grade_trends
 
 # Keep any function tests inside this IF statement to ensure
