@@ -17,6 +17,7 @@ __version__ = 7
 
 # 1) main
 import canvas_requests
+
 def main(name):
     user = canvas_requests.get_user(name)
     print_user_info(user)
@@ -27,9 +28,9 @@ def main(name):
     course_id = choose_course(course_ids)
     submissions = canvas_requests.get_submissions(name,course_id)
     summarize_points(submissions)
-    summarize_groups(submissions)
-    plot_scores(submissions)
-    plot_grade_trends(submissions)
+    #summarize_groups(submissions)
+    #plot_scores(submissions)
+    #plot_grade_trends(submissions)
 # 2) print_user_info
 def print_user_info(user):
     print("Name: " + user["name"])
@@ -54,7 +55,7 @@ def filter_available_courses(courses):
 # 4) print_courses
 def print_courses(courses):
     for course in courses:
-        print(course["id"] + " : " + "name")
+        print(str(course["id"]) + " : " + course["name"])
 # 5) get_course_ids
 def get_course_ids(courses):
     course_ids = []
@@ -70,23 +71,34 @@ def choose_course(course_ids):
     return chosen_course
 # 7) summarize_points
 def summarize_points(submissions):
-    points_possible = 0
+    possible = 0
     points_obtained = 0
     for submission in submissions:
-        points_possible = points_possible + (submission["assignment"]["points_possible"] * submission["assignment"]["points_possible"]["group"]["group_weight"])
-        points_obtained = points_obtained + (submission["score"] * submission["assignment"]["points_possible"]["group"]["group_weight"])
+        if submission["score"] is not None:
+            points_possible = submission["assignment"]["points_possible"]
+            group_weight = submission["assignment"]["group"]["group_weight"]
+            possible = possible + (points_possible * group_weight)
+            points_obtained = points_obtained + (submission["score"] * group_weight)
     print("Points possible so far: " + str(points_possible))
     print("Points obtained: " + str(points_obtained))
-    print("Current grade: " + str(round((points_obtained/points_possible) * 100), 1))
+    print("Current grade: " + str(round((points_obtained/points_possible) * 100)))
 # 8) summarize_groups
 def summarize_groups(submissions):
     group_score = {}
     group_points = {}
     for submission in submissions:
         group_name = submission["assignment"]["group"]["name"]
+        if group_name not in group_score:
+            group_score[group_name] = 0
+            group_points[group_name] = 0
+        group_score[group_name] = group_score[group_name] + submission["score"]
+        group_points[group_name] = group_points[group_name] + submission["assignment"]["points_possible"]
+    for name in group_score:
+        score, points = group_score[name],group_points[name]
+        print("*", name, round(100 * score/points))
 
 # 9) plot_scores
-def plot_scores(submissions):
+#def plot_scores(submissions):
 
 # 10) plot_grade_trends
 
