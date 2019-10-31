@@ -74,7 +74,7 @@ def summarize_points(submissions):
     points_possible = 0
     points_obtained = 0
 
-    for submission for submissions:
+    for submission in submissions:
         points_possible = points_possible + (submission["assignment"]["points_possible"] * submission["assignment"]["points_possible"]["group"]["group_weight"])
         points_obtained = points_obtained + (submission["score"] * submission["assignment"]["points_possible"]["group"]["group_weight"])
     print("Points possible so far: " + str(points_possible))
