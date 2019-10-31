@@ -50,7 +50,7 @@ def filter_available_courses(courses):
         if course["workflow_state"] == "available":
             available_courses.append(course)
     return available_courses
- 
+
 # 4) print_courses
 def print_courses(courses):
     for course in courses:
@@ -82,6 +82,8 @@ def summarize_points(submissions):
 def summarize_groups(submissions):
     group_score = {}
     group_points = {}
+    for submission in submissions:
+        group_name = submission["assignment"]["group"]["name"]
 
 # 9) plot_scores
 def plot_scores(submissions):
