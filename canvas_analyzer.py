@@ -28,7 +28,7 @@ def main(name):
     course_id = choose_course(course_ids)
     submissions = canvas_requests.get_submissions(name,course_id)
     summarize_points(submissions)
-    #summarize_groups(submissions)
+    summarize_groups(submissions)
     #plot_scores(submissions)
     #plot_grade_trends(submissions)
 # 2) print_user_info
@@ -79,20 +79,21 @@ def summarize_points(submissions):
             group_weight = submission["assignment"]["group"]["group_weight"]
             possible = possible + (points_possible * group_weight)
             points_obtained = points_obtained + (submission["score"] * group_weight)
-    print("Points possible so far: " + str(points_possible))
+    print("Points possible so far: " + str(possible))
     print("Points obtained: " + str(points_obtained))
-    print("Current grade: " + str(round((points_obtained/points_possible) * 100)))
+    print("Current grade: " + str(round((points_obtained/possible) * 100)))
 # 8) summarize_groups
 def summarize_groups(submissions):
     group_score = {}
     group_points = {}
     for submission in submissions:
-        group_name = submission["assignment"]["group"]["name"]
-        if group_name not in group_score:
-            group_score[group_name] = 0
-            group_points[group_name] = 0
-        group_score[group_name] = group_score[group_name] + submission["score"]
-        group_points[group_name] = group_points[group_name] + submission["assignment"]["points_possible"]
+        if submission["score"] is not None:
+            group_name = submission["assignment"]["group"]["name"]
+            if group_name not in group_score:
+                group_score[group_name] = 0
+                group_points[group_name] = 0
+            group_score[group_name] = group_score[group_name] + submission["score"]
+            group_points[group_name] = group_points[group_name] + submission["assignment"]["points_possible"]
     for name in group_score:
         score, points = group_score[name],group_points[name]
         print("*", name, round(100 * score/points))
