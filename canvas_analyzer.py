@@ -100,6 +100,10 @@ def summarize_groups(submissions):
 
 # 9) plot_scores
 #def plot_scores(submissions):
+ #   grade = 0
+  #  for submission in submissions:
+   #     if submission["score"] is not None:
+    #        grade = (submission["score"] * 100)/(submission["assignment"]["points_possible"])
 
 # 10) plot_grade_trends
 
